@@ -1,0 +1,17 @@
+{
+  "name": "cortanex-ai-website",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:effects": "node scripts/build-effects.mjs",
+    "check": "python3 scripts/validate.py && python3 scripts/verify-content.py && node --check public/app.js && node --check public/effects.js"
+  },
+  "dependencies": {
+    "motion": "14.5.0"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "esbuild": "0.28.2"
+  }
+}

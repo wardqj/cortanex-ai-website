@@ -1,3 +1,5 @@
+> Historical V2 record. See `v3-qa.md` for the current polish and responsive/accessibility checks.
+
 # CortaNex AI landing page — V2 QA record
 
 Reviewed 21 October 2026. This record distinguishes actual browser checks from source review.

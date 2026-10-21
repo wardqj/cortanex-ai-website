@@ -41,6 +41,9 @@ Source files are copied into the image. This is intentionally not a live-reload 
 | --- | --- |
 | `public/index.html` | Landing-page content, metadata and native project-brief dialog |
 | `public/styles.css` | Responsive layout, local fonts and reduced-motion rules |
+| `public/polish.css` | V3 visual refinement layer |
+| `src/effects.js` | Editable Motion/Canvas enhancement source |
+| `public/effects.js` | Self-hosted bundled enhancement module |
 | `public/app.js` | Scenarios, module tabs, mobile menu and WhatsApp draft |
 | `public/assets/` | Approved logos, fonts/licenses, favicons and hero artwork |
 | `public/research.html` | Supporting 25-company website comparison |
@@ -51,10 +54,26 @@ Source files are copied into the image. This is intentionally not a live-reload 
 | `.github/workflows/validate.yaml` | Source checks, container build and Compose smoke test |
 | `docs/` | Architecture, deployment guidance, design QA and research |
 
+## Visual polish and motion
+
+The V3 polish preserves all original copy and scenario/module data. It adds a refined header and action dock, local Motion transitions, an abstract Canvas flow, richer capability visuals and delivery explanations. Motion 14.5.0 is MIT-licensed and self-hosted; there is no runtime CDN or paid effect dependency. The motion control and OS reduced-motion setting provide static alternatives.
+
+To change the animation source, use Node.js 22+ and npm:
+
+```sh
+npm ci
+# Edit src/effects.js, then rebuild the committed browser module:
+npm run build:effects
+npm run check
+```
+
+Docker Compose serves the committed `public/` files, so Node is not required to run the website. See [design rationale](docs/visual-polish-research.md) and [V3 QA](docs/v3-qa.md).
+
 ## Checks
 
 ```sh
 python3 scripts/validate.py
+python3 scripts/verify-content.py
 node --check public/app.js
 docker compose config --quiet
 docker compose build --pull

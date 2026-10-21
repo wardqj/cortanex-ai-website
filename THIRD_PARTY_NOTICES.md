@@ -6,3 +6,5 @@
 - `actions/checkout` is referenced by the CI workflow and retains its upstream license. See https://github.com/actions/checkout.
 
 Company vector logos are supplied from the approved CortaNex production brand assets. The connected-flow hero is custom generated decorative artwork. Neither the artwork nor the illustrative operational records represent a client deployment. See `docs/artwork.md` for provenance.
+
+- Motion 14.5.0 (MIT): bundled locally in `public/effects.js`; full notice at `public/assets/Motion-LICENSE.txt`. The build uses esbuild 0.28.2. Native Canvas/CSS effects are project code. No paid animation plugins or runtime CDN are required.

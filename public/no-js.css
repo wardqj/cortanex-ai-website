@@ -1,0 +1,15 @@
+/* Loaded by <noscript> only, avoiding a pre-JavaScript layout shift. */
+#reveal-scenario, .action-dock, .motion-toggle { display: none; }
+.scenario-insight[hidden] { display: block !important; }
+[role="tab"] { cursor: default; pointer-events: none; }
+@media (max-width: 959px) {
+  .mobile-nav[hidden] { display: block !important; }
+  .menu-toggle { display: none; }
+  .site-header {
+    position: relative;
+    top: 0;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 0;
+  }
+}

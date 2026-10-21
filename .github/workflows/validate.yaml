@@ -17,10 +17,17 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Rebuild local animation bundle
+        run: |
+          npm ci
+          npm run build:effects
+          git diff --exit-code -- public/effects.js public/assets/Motion-LICENSE.txt
       - name: Validate static source
         run: |
           python3 scripts/validate.py
+          python3 scripts/verify-content.py
           node --check public/app.js
+          node --check public/effects.js
       - name: Validate Compose and build image
         run: |
           docker compose config --quiet

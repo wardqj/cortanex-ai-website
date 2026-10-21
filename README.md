@@ -88,7 +88,7 @@ GitHub Actions runs these checks on pushes to `main`, pull requests and manual d
 
 The page distinguishes CortaNex's implementation services from ManuQube's initial MES, OMS, RMS and QMS releases. Warehouse and maintenance remain roadmap scope. Interactive records are labelled illustrative and do not represent customer results.
 
-The project brief stays in browser memory. It shows a review before offering a WhatsApp draft addressed to Ward's supplied business number, +962 79 871 6666. Visitors choose when to send. There is no backend form, database, analytics or local-storage persistence.
+The project brief stays in browser memory. It shows a review before offering an email draft to info@cortanexai.com or a WhatsApp draft to the supplied business number, +962 79 871 6666. Visitors choose when to send. There is no backend form, database, analytics or local-storage persistence.
 
 ## Ownership and deployment
 

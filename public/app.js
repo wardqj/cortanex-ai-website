@@ -104,10 +104,11 @@
     const operation=q('input[name="operation"]:checked').value;
     const challenge=q('#brief-challenge').value.trim(),tools=q('#brief-tools').value.trim();
     if(!challenge){q('#brief-challenge').focus();return;}
-    const message='Hi Ward, I would like to discuss '+(productInterest?'a ManuQube pilot':'an operational software project')+' with CortaNex AI.\n\nOperation: '+operation+'\n\nWhat needs to work better:\n'+challenge+(tools?'\n\nCurrent tools: '+tools:'');
+    const message='Hello CortaNex AI team,\n\nI would like to discuss '+(productInterest?'a ManuQube pilot':'an operational software project')+' with CortaNex AI.\n\nOperation: '+operation+'\n\nWhat needs to work better:\n'+challenge+(tools?'\n\nCurrent tools: '+tools:'');
     q('#brief-preview').textContent=message;
     q('#send-brief').href='https://wa.me/962798716666?text='+encodeURIComponent(message);
-    briefForm.hidden=true;review.hidden=false;q('#send-brief').focus();
+    q('#email-brief').href='mailto:info@cortanexai.com?subject='+encodeURIComponent(productInterest?'ManuQube pilot enquiry':'Business enquiry | CortaNex AI')+'&body='+encodeURIComponent(message);
+    briefForm.hidden=true;review.hidden=false;q('#email-brief').focus();
   });
   q('#edit-brief').addEventListener('click',()=>{review.hidden=true;briefForm.hidden=false;q('#brief-challenge').focus();});
   q('#brief-form button[type="submit"]').disabled=false;

@@ -20,7 +20,7 @@ header-includes: |
 
 ## The direction this research supports
 
-The new page should let a visitor experience the idea of connected operations before asking them to discuss a project. A strong headline and polished cards are useful, but they do not demonstrate how CortaNex thinks. The rebuild therefore centers on an illustrative operational scenario, a guided project brief and a clear route to Ward. The page is designed to be a useful first interaction with the company.
+The new page should let a visitor experience the idea of connected operations before asking them to discuss a project. A strong headline and polished cards are useful, but they do not demonstrate how CortaNex thinks. The rebuild therefore centers on an illustrative operational scenario, a guided project brief and a clear route to the CortaNex AI team. The page is designed to be a useful first interaction with the company.
 
 We reviewed a **curated sample of 25 verified Y Combinator companies**, spanning batches from Summer 2009 to Winter 2025. The sample combines industrial companies, business platforms, developer tools and recent AI products. It is intentionally relevant to the design problem; it is neither a random sample nor a survey of every YC company. YC membership is a way to verify the reference set, not a claim that these companies share one design language or that YC has endorsed CortaNex.
 
@@ -97,7 +97,7 @@ CortaNex's new scenario consequently follows **source → handoff → owner → 
 
 Stripe, Gusto, Webflow, Supabase and BuildBuddy pair a direct entry route with an assisted or explanatory alternative. Browser Use separates using a hosted agent from connecting another agent. These choices are valuable because the visitors' intentions differ. Repeating the same destination under several creative button labels would not reproduce this benefit.
 
-For CortaNex, the principal paths are a guided project brief, an illustrative workflow and direct contact. The brief asks useful questions about the operation and bottleneck, previews a message, then opens Ward's verified WhatsApp channel. It does not claim to submit a lead to a CRM or to provision software. The persistent action dock keeps the next step available while the visitor explores, with meaningful labels rather than an unexplained icon.
+For CortaNex, the principal paths are a guided project brief, an illustrative workflow and direct contact. The brief asks useful questions about the operation and bottleneck, previews a message, then opens the company’s WhatsApp channel. It does not claim to submit a lead to a CRM or to provision software. The persistent action dock keeps the next step available while the visitor explores, with meaningful labels rather than an unexplained icon.
 
 ### Proof must match the company's actual stage
 
@@ -117,7 +117,7 @@ The immersive art background in the rebuild is an original decorative layer. It 
 |---|---|---|
 | Immersive opening with depth | Industrial references establish context; software references make the mechanism tangible. | Decorative art gives the page a distinct atmosphere. It remains secondary to readable content and does not represent client assets. |
 | A real operational scenario | PostHog, Gumloop, Resend and Firecrawl explain through inputs and consequences. | A scenario connects source information, a handoff, responsibility and a review decision. All records are illustrative. |
-| Guided WhatsApp brief | Task-entry references let visitors make progress before a conversation. | Choices create a useful draft for Ward. The visitor decides when to open WhatsApp and send it. No false submitted state. |
+| Guided WhatsApp brief | Task-entry references let visitors make progress before a conversation. | Choices create a useful draft for the CortaNex AI team. The visitor decides when to open WhatsApp and send it. No false submitted state. |
 | Persistent action dock | Different readiness levels benefit from an obvious next step. | Exploration and contact remain available without hiding core content or taking over scrolling. |
 | Separate company and product narratives | Supabase explains modularity; industrial examples define product scope. | CortaNex's implementation offer stays clear. ManuQube receives its own focused product moment. |
 | Four releases, two roadmap areas | Credibility depends on accurate product maturity. | MES, OMS, RMS and QMS are initial releases. Warehouse and maintenance remain roadmap capabilities; factory validation is not claimed complete. |
@@ -130,7 +130,7 @@ These decisions should be judged through the visitor's ability to understand the
 
 The company name is **CortaNex AI**. Transcription variants in the conversation do not create alternate brand names. ManuQube is endorsed by CortaNex and has its own product role. Previous internal system codenames remain out of the public narrative. Client identity and screenshots require permission before later use; neither was required to construct this illustrative page.
 
-The contact destination is Ward's explicitly supplied number, **+962 79 871 6666**. The brief should state that the visitor is opening a WhatsApp draft and chooses when to send it. A local drafting experience is not an automated submission, software assessment result or project quote. Unverified inboxes, account creation, calendar availability and live product access should not appear as working services.
+The contact destination is the founder-supplied business number, **+962 79 871 6666**. The brief should state that the visitor is opening a WhatsApp draft and chooses when to send it. A local drafting experience is not an automated submission, software assessment result or project quote. Unverified inboxes, account creation, calendar availability and live product access should not appear as working services.
 
 The rebuilt page is delivered as a separate site. Replacing the old homepage on the company's domain is a later deployment action and was not performed as part of this work. When that switch is scheduled, the final owner should confirm current product status, contact responsibility and any old URL redirects. This report is supporting handover material; it should not be inserted into the company site's main navigation.
 

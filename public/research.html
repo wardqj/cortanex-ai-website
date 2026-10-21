@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-10-20" />
+  <meta name="description" content="A curated comparison of 25 verified Y Combinator companies, their public website content and conversion patterns, and the resulting CortaNex design decisions." />
+  <title>CortaNex AI — YC website research and design decisions</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+  @font-face{font-family:Inter;src:url('/assets/Inter-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:Inter;src:url('/assets/Inter-Medium.woff2') format('woff2');font-weight:500 800;font-display:swap}
+  @font-face{font-family:Manrope;src:url('/assets/Manrope-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+  :root{color-scheme:light;--ink:#0B263B;--muted:#4d6272;--blue:#087DF0;--line:#dce4e9;--paper:#fff;--wash:#f4f7f9}
+  *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 Inter,Arial,sans-serif;overflow-wrap:anywhere}body>header,body>nav,body>p,body>h1,body>h2,body>h3,body>h4,body>ul,body>ol,body>blockquote,body>div{width:min(1120px,calc(100% - 48px));margin-left:auto;margin-right:auto}body>header{padding:70px 0 46px;border-bottom:1px solid var(--line);margin-bottom:38px}h1,h2,h3,h4{font-family:Manrope,Inter,sans-serif;font-weight:600;line-height:1.2;letter-spacing:-.035em}h1.title{max-width:850px;font-size:clamp(40px,5.5vw,70px);margin:0 0 24px}p.subtitle{max-width:760px;font-size:20px;line-height:1.5;color:var(--muted)}p.date{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin-top:30px}h2{font-size:clamp(27px,3vw,39px);padding-top:46px;margin-top:50px;border-top:1px solid var(--line);margin-bottom:20px}h3{font-size:24px;margin-top:34px;margin-bottom:12px}h4{font-size:19px}p,ul,ol{max-width:1120px}p{margin-top:15px;margin-bottom:15px}strong{font-weight:600}a{color:#075eb6;text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:var(--ink)}a:focus-visible{outline:3px solid var(--blue);outline-offset:4px}li{padding:4px 0}blockquote{padding:18px 26px;background:var(--wash);border-left:3px solid var(--blue)}blockquote p{margin:0}nav#TOC{padding:28px 30px;background:var(--wash);border:1px solid var(--line);border-radius:12px}nav#TOC ul{padding-left:19px;margin:0;columns:2;column-gap:40px}nav#TOC li{break-inside:avoid;font-size:14px}nav#TOC a{text-decoration:none}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.55;margin:25px 0;display:block;overflow-x:auto}thead{background:var(--ink);color:white}th,td{padding:16px 15px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:130px}th:first-child,td:first-child{min-width:125px}th:last-child,td:last-child{min-width:210px}td a{white-space:nowrap}tbody tr:nth-child(even){background:#f6f8fa}body>table{width:min(1400px,calc(100% - 48px));margin-left:auto;margin-right:auto}code{font-size:.9em;background:#edf2f6;padding:2px 5px;border-radius:4px}.home-link{display:inline-flex;align-items:center;gap:10px;margin:24px 0 0;padding:10px 16px;background:var(--ink);color:white;border-radius:8px;text-decoration:none;font-size:14px}.home-link:hover{color:white;background:#16415e}.report-kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}hr{border:0;border-top:1px solid var(--line);margin:36px auto;width:min(1120px,calc(100% - 48px))}body{padding-bottom:80px}@media(max-width:700px){body{font-size:15px}body>header,body>nav,body>p,body>h1,body>h2,body>h3,body>h4,body>ul,body>ol,body>blockquote,body>div{width:calc(100% - 36px)}body>header{padding-top:36px}nav#TOC{padding:20px}nav#TOC ul{columns:1}body>table{width:calc(100% - 24px)}h2{padding-top:28px;margin-top:38px}th,td{padding:13px 12px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{body{font:10pt/1.5 Arial,sans-serif;padding:0}body>header{padding:10mm 0}h1.title{font-size:30pt}h2{font-size:19pt;break-after:avoid}h3{font-size:15pt;break-after:avoid}nav#TOC,.home-link{display:none}table{display:table;font-size:8pt}th,td{min-width:0!important;padding:6px}a{color:inherit}body>table{width:100%}}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">From startup reference to a CortaNex experience</h1>
+<p class="subtitle">A 25-company research comparison and the decisions
+behind the landing-page rebuild</p>
+<p class="date">20 October 2026</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-direction-this-research-supports"
+id="toc-the-direction-this-research-supports">The direction this
+research supports</a></li>
+<li><a href="#method-and-limits" id="toc-method-and-limits">Method and
+limits</a></li>
+<li><a href="#the-25-company-comparison"
+id="toc-the-25-company-comparison">The 25-company comparison</a></li>
+<li><a href="#what-transfers-across-the-sample"
+id="toc-what-transfers-across-the-sample">What transfers across the
+sample</a></li>
+<li><a href="#decisions-applied-to-the-rebuilt-page"
+id="toc-decisions-applied-to-the-rebuilt-page">Decisions applied to the
+rebuilt page</a></li>
+<li><a href="#content-and-launch-boundaries"
+id="toc-content-and-launch-boundaries">Content and launch
+boundaries</a></li>
+<li><a href="#what-should-be-measured-after-launch"
+id="toc-what-should-be-measured-after-launch">What should be measured
+after launch</a></li>
+</ul>
+</nav>
+<p class="report-kicker">
+CortaNex AI / Research and design rationale
+</p>
+<p><a class="home-link" href="/">← Open the rebuilt CortaNex landing
+page</a></p>
+<h2 id="the-direction-this-research-supports">The direction this
+research supports</h2>
+<p>The new page should let a visitor experience the idea of connected
+operations before asking them to discuss a project. A strong headline
+and polished cards are useful, but they do not demonstrate how CortaNex
+thinks. The rebuild therefore centers on an illustrative operational
+scenario, a guided project brief and a clear route to Ward. The page is
+designed to be a useful first interaction with the company.</p>
+<p>We reviewed a <strong>curated sample of 25 verified Y Combinator
+companies</strong>, spanning batches from Summer 2009 to Winter 2025.
+The sample combines industrial companies, business platforms, developer
+tools and recent AI products. It is intentionally relevant to the design
+problem; it is neither a random sample nor a survey of every YC company.
+YC membership is a way to verify the reference set, not a claim that
+these companies share one design language or that YC has endorsed
+CortaNex.</p>
+<p>The key transferable pattern is a visible relationship between
+<strong>the visitor’s job, the product’s mechanism and the next
+action</strong>. Some references use a sales conversation, others a free
+account, executable input, a demonstration or documentation. CortaNex’s
+current stage calls for a scoped conversation supported by an honest
+demonstration, rather than borrowing a mature platform’s sign-up
+promise.</p>
+<h2 id="method-and-limits">Method and limits</h2>
+<p>Research was retrieved on <strong>20 October 2026</strong>. For each
+company, an official YC profile established affiliation and batch, and
+the operating company homepage established current messaging, links,
+content and available asset descriptions. The source links in the
+comparison lead to those primary pages. Headings, CTAs and destinations
+can change or vary by experiment, geography and session.</p>
+<p>This review uses retrieved text, links and image descriptions. It
+does <strong>not</strong> claim pixel-by-pixel visual inspection,
+rendered mobile testing, animation playback, task completion inside the
+products, or access to conversion analytics. A referenced interface in a
+page’s source establishes the presence of that content, not that its
+interaction was tested. Recommendations are our qualitative design
+judgments. They are not causal evidence that a pattern improves
+conversion.</p>
+<p>Two source details matter. Stripe resolved to its Denmark locale, so
+its regional page should not be treated as universal. Vanta’s retrieved
+homepage contains multiple headline variants; there is no defensible
+basis here to call one the exclusive current hero. YC currently labels
+Brex, Langfuse and Factored Quality as acquired. Factored Quality’s
+official batch is <strong>Winter 2020</strong>; the profile’s separate
+founding-year field should not be used to infer a different batch.</p>
+<h3 id="six-comparison-criteria">Six comparison criteria</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criterion</th>
+<th>Question used in the review</th>
+<th>Implication for CortaNex</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Job clarity</td>
+<td>Can a visitor identify the work the company helps them do?</td>
+<td>State the operational job before introducing broad AI language.</td>
+</tr>
+<tr class="even">
+<td>Early demonstration</td>
+<td>Does the page show the mechanism near the introduction?</td>
+<td>Demonstrate records, handoffs and ownership through one
+scenario.</td>
+</tr>
+<tr class="odd">
+<td>CTA hierarchy</td>
+<td>Are the next steps distinct and appropriate to readiness?</td>
+<td>Make conversation, exploration and brief-building separate
+actions.</td>
+</tr>
+<tr class="even">
+<td>Visitor participation</td>
+<td>Can the visitor make a meaningful choice or supply useful
+input?</td>
+<td>Let people choose a workflow and build a draft enquiry.</td>
+</tr>
+<tr class="odd">
+<td>Proof maturity</td>
+<td>What evidence supports the promise, and whose evidence is it?</td>
+<td>Use confirmed implementation scope and clear product status.</td>
+</tr>
+<tr class="even">
+<td>Design transfer</td>
+<td>Which principle fits CortaNex without copying another business?</td>
+<td>Adopt useful behavior; retain CortaNex’s identity and evidence
+limits.</td>
+</tr>
+</tbody>
+</table>
+<p>No numeric league table is assigned. Visual quality and conversion
+performance were not measured, and a mature platform and an early
+industrial product should not be scored as if their commercial
+conditions were identical.</p>
+<h2 id="the-25-company-comparison">The 25-company comparison</h2>
+<p>The rows record observed content and our interpretation separately.
+CTA labels are short excerpts; all other descriptions summarize the
+research. The final column is a proposed transfer, not a claim about the
+reference company’s conversion results.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Company / verified batch</th>
+<th>Job and early demonstration</th>
+<th>Conversion and participation</th>
+<th>Proof maturity and transfer decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Vanta · W18</strong><br><a
+href="https://www.ycombinator.com/companies/vanta">YC profile</a> · <a
+href="https://www.vanta.com/">Homepage</a></td>
+<td>Compliance, risk and trust are organized as a coherent platform. The
+retrieved page includes agent-interface content and several headline
+variants.</td>
+<td>A form appears near the introduction; <strong>Get a demo</strong> is
+a verified page action. Audience routes distinguish startup, mid-market
+and enterprise needs.</td>
+<td>Mature customer identities, quotes and outcomes support its message.
+Transfer buyer-problem clarity and audience relevance; do not transfer
+its compliance claims or proof wall.</td>
+</tr>
+<tr class="even">
+<td><strong>Retool · W17</strong><br><a
+href="https://www.ycombinator.com/companies/retool">YC profile</a> · <a
+href="https://retool.com/">Homepage</a></td>
+<td>Software building and governance are made concrete through prompt
+entry, app examples, import routes and integration content.</td>
+<td><strong>Book a demo</strong>, <strong>Contact sales</strong> and a
+free-builder route serve different readiness levels. Example prompts
+invite the visitor to begin the task.</td>
+<td>App galleries and named organizations support a mature platform.
+Transfer a purposeful task entry; do not imply CortaNex can generate any
+production-ready application immediately.</td>
+</tr>
+<tr class="odd">
+<td><strong>Gusto · W12</strong><br><a
+href="https://www.ycombinator.com/companies/gusto">YC profile</a> · <a
+href="https://gusto.com/">Homepage</a></td>
+<td>Hiring, payroll and growth are described in everyday language.
+Product interfaces show payroll, scheduling, benefits and hiring in
+context.</td>
+<td><strong>Create free account</strong> and <strong>How Gusto
+works</strong> combine action with explanation. Pricing, demo and sales
+paths appear later.</td>
+<td>Named customers and vendor-reported outcomes accompany product
+scope. Transfer understandable work language and readiness choices;
+CortaNex should not advertise an unavailable self-service account.</td>
+</tr>
+<tr class="even">
+<td><strong>Webflow · S13</strong><br><a
+href="https://www.ycombinator.com/companies/webflow">YC profile</a> · <a
+href="https://webflow.com/">Homepage</a></td>
+<td>Website creation and growth are organized around marketing, design,
+engineering and agency needs, with capability-specific
+explanations.</td>
+<td><strong>Get started</strong> and <strong>Talk to Sales</strong>
+coexist. Audience choices change what becomes relevant to the
+visitor.</td>
+<td>Detailed customer stories connect capabilities to documented
+projects. Transfer purpose-based exploration; avoid importing its large
+navigation system into a focused company landing page.</td>
+</tr>
+<tr class="odd">
+<td><strong>PostHog · W20</strong><br><a
+href="https://www.ycombinator.com/companies/posthog">YC profile</a> · <a
+href="https://posthog.com/">Homepage</a></td>
+<td>A contextual-data message is explained through an investigation that
+links signals, findings and a proposed action. The page explicitly
+identifies sample data.</td>
+<td>Free setup, demo and human contact coexist; terminal setup provides
+a technical alternative.</td>
+<td>It distinguishes illustrative scenarios from customer evidence.
+Transfer the visible path from records to a decision, with a clear
+sample label and human review.</td>
+</tr>
+<tr class="even">
+<td><strong>Supabase · S20</strong><br><a
+href="https://www.ycombinator.com/companies/supabase">YC profile</a> ·
+<a href="https://supabase.com/">Homepage</a></td>
+<td>The platform promise is grounded in named products. Dashboard
+content exposes table, query and policy tools; modularity is explained
+directly.</td>
+<td><strong>Start your project</strong> and <strong>Request a
+demo</strong> divide self-service and assisted adoption.</td>
+<td>Product detail and customer stories support its scale positioning.
+Transfer the umbrella/module relationship to ManuQube; do not borrow
+speed or scale claims.</td>
+</tr>
+<tr class="odd">
+<td><strong>Resend · W23</strong><br><a
+href="https://www.ycombinator.com/companies/resend">YC profile</a> · <a
+href="https://resend.com/">Homepage</a></td>
+<td>A sharply defined email job is supported by SDK choices, code,
+send/results content, test events and editor examples.</td>
+<td><strong>Get started</strong> and <strong>Documentation</strong> give
+buyers a direct path into the product. Enterprise exploration is
+separate.</td>
+<td>The mechanism carries much of the explanation. Transfer specificity
+and input/output storytelling; do not show synthetic operations as a
+live customer system.</td>
+</tr>
+<tr class="even">
+<td><strong>Meticulous · S21</strong><br><a
+href="https://www.ycombinator.com/companies/meticulous">YC profile</a> ·
+<a href="https://www.meticulous.ai/">Homepage</a></td>
+<td>Automated frontend testing is explained through a video, dashboard
+and sequential account of recording, testing and reviewing changes.</td>
+<td><strong>Get Started</strong> is prominent; supporting explanations,
+docs and integrations answer evaluation questions.</td>
+<td>Named testimonials and technical differentiation support the pitch.
+Transfer a narrow promise plus an understandable mechanism; avoid
+absolute correctness or zero-effort language.</td>
+</tr>
+<tr class="odd">
+<td><strong>Gecko Robotics · W16</strong><br><a
+href="https://www.ycombinator.com/companies/gecko-robotics">YC
+profile</a> · <a href="https://www.geckorobotics.com/">Homepage</a></td>
+<td>Robotics and AI are tied to the built world. Retrieved content and
+asset descriptions connect field engineering with software.</td>
+<td>AI/robotics exploration and <strong>Watch Software Demo</strong>
+provide distinct ways into the offer.</td>
+<td>Physical context makes the category tangible. Transfer the
+relationship between real operational work and software; do not imply
+CortaNex owns Gecko’s assets, deployments or results.</td>
+</tr>
+<tr class="even">
+<td><strong>Astranis · W16</strong><br><a
+href="https://www.ycombinator.com/companies/astranis">YC profile</a> ·
+<a href="https://www.astranis.com/">Homepage</a></td>
+<td>Dedicated satellite networks are explained through engineering
+content and manufacturing/testing asset descriptions.</td>
+<td>A contact path follows category and technical explanations.</td>
+<td>Tangible engineering supports the proposition. Transfer category
+precision and explanatory depth; manufacturing-themed imagery alone
+cannot establish ManuQube production validation.</td>
+</tr>
+<tr class="odd">
+<td><strong>BuildBuddy · W20</strong><br><a
+href="https://www.ycombinator.com/companies/buildbuddy">YC profile</a> ·
+<a href="https://www.buildbuddy.io/">Homepage</a></td>
+<td>The message identifies a specific engineering context—Bazel
+builds—and presents results-interface content.</td>
+<td><strong>Get Started for Free</strong> and <strong>Request a
+Demo</strong> separate individual use from assisted evaluation.</td>
+<td>A recognizable workflow helps technical visitors judge relevance.
+Transfer concrete buyer context and differentiated actions; avoid
+importing an unrelated developer-tool aesthetic wholesale.</td>
+</tr>
+<tr class="even">
+<td><strong>Replit · W18</strong><br><a
+href="https://www.ycombinator.com/companies/replit">YC profile</a> · <a
+href="https://replit.com/">Homepage</a></td>
+<td>The introduction asks what the visitor wants to build, supported by
+example prompts and output categories.</td>
+<td>Task entry and account creation are part of the experience rather
+than only links below a headline.</td>
+<td>The product can serve the action it advertises. Transfer a real
+first step—such as drafting an operational brief—not an imitation prompt
+that pretends to build software.</td>
+</tr>
+<tr class="odd">
+<td><strong>Nango · W23</strong><br><a
+href="https://www.ycombinator.com/companies/nango">YC profile</a> · <a
+href="https://nango.dev/">Homepage</a></td>
+<td>Integration for products and agents is presented through an
+understandable authorize, generate and expose sequence.</td>
+<td><strong>Start building</strong> and <strong>Book a call</strong>
+address technical and assisted entry.</td>
+<td>A visible mechanism explains a complex capability. Transfer
+comprehensible handoffs and separate evaluation paths; do not promise
+universal compatibility.</td>
+</tr>
+<tr class="even">
+<td><strong>Zapier · S12</strong><br><a
+href="https://www.ycombinator.com/companies/zapier">YC profile</a> · <a
+href="https://zapier.com/">Homepage</a></td>
+<td>Workflows and AI are tied to steps and practical work rather than an
+abstract AI category alone.</td>
+<td>Email/Google start routes coexist with expert consultation.</td>
+<td>Breadth is supported by a mature automation offering. Transfer
+bounded workflow explanations and an assisted route; avoid implying
+CortaNex has the same connector coverage.</td>
+</tr>
+<tr class="odd">
+<td><strong>Stripe · S09</strong><br><a
+href="https://www.ycombinator.com/companies/stripe">YC profile</a> · <a
+href="https://stripe.com/en-dk">Homepage</a></td>
+<td>A commercial job leads, followed by specific financial product
+examples. The reviewed page resolved to the Denmark locale.</td>
+<td><strong>Get started</strong> and <strong>Contact sales</strong>
+separate self-service and complex buying. The sales route begins with
+work email and country.</td>
+<td>Product detail supports a mature infrastructure proposition.
+Transfer outcome clarity and next-step hierarchy; do not borrow reach,
+reliability or financial-infrastructure claims.</td>
+</tr>
+<tr class="even">
+<td><strong>Brex · W17</strong><br><a
+href="https://www.ycombinator.com/companies/brex">YC profile</a> · <a
+href="https://www.brex.com/">Homepage</a></td>
+<td>Finance, speed and control frame product groupings and segment
+routes. Source assets explicitly distinguish desktop and mobile hero
+versions.</td>
+<td><strong>Get started</strong>, <strong>See Brex in action</strong>
+and work-email entry provide different levels of commitment.</td>
+<td>YC currently labels Brex acquired. Transfer an intentionally
+designed mobile composition and demonstration choice; asset names alone
+do not prove mobile usability.</td>
+</tr>
+<tr class="odd">
+<td><strong>Exa · S21</strong><br><a
+href="https://www.ycombinator.com/companies/exa">YC profile</a> · <a
+href="https://exa.ai/">Homepage</a></td>
+<td>A focused data-for-agents proposition is supported by documentation,
+research, evaluation and customer material.</td>
+<td><strong>Try API for free</strong> and <strong>Contact sales</strong>
+serve builders and organizational buyers.</td>
+<td>Technical evidence helps visitors evaluate fit. Transfer a clear
+technical-detail route beside a business conversation, without copying
+API availability that CortaNex has not offered publicly.</td>
+</tr>
+<tr class="even">
+<td><strong>Gumloop · W24</strong><br><a
+href="https://www.ycombinator.com/companies/gumloop">YC profile</a> · <a
+href="https://www.gumloop.com/">Homepage</a></td>
+<td>Agent roles, example questions, connectors and action traces make a
+task inspectable. Current positioning should take precedence over older
+launch copy.</td>
+<td><strong>Get Started</strong> and <strong>Book a demo</strong>
+coexist with interface-like examples.</td>
+<td>The product demonstrates work rather than relying only on feature
+names. Transfer question → records → action storytelling; CortaNex’s
+example remains explicitly illustrative.</td>
+</tr>
+<tr class="odd">
+<td><strong>Firecrawl · S22</strong><br><a
+href="https://www.ycombinator.com/companies/firecrawl">YC profile</a> ·
+<a href="https://www.firecrawl.dev/">Homepage</a></td>
+<td>A URL input, functional modes and structured output make the
+product’s job immediately concrete.</td>
+<td><strong>Start for free</strong>, a playground and code access invite
+direct participation.</td>
+<td>An inspectable input/output relationship reduces abstraction.
+Transfer a usable interaction with visible results; do not make the
+CortaNex brief builder appear to execute a live factory action.</td>
+</tr>
+<tr class="even">
+<td><strong>Langfuse · W23</strong><br><a
+href="https://www.ycombinator.com/companies/langfuse">YC profile</a> ·
+<a href="https://langfuse.com/">Homepage</a></td>
+<td>Agent evaluations and observability are supported by an example
+project showing actual trace detail.</td>
+<td><strong>Start free</strong> and <strong>Documentation</strong>
+accompany the example route; its public-data warning explains
+exposure.</td>
+<td>YC currently labels Langfuse acquired. Transfer clear demonstration
+scope and disclosure. Do not expose client records merely to increase
+realism.</td>
+</tr>
+<tr class="odd">
+<td><strong>Browser Use · W25</strong><br><a
+href="https://www.ycombinator.com/companies/browser-use">YC profile</a>
+· <a href="https://browser-use.com/">Homepage</a></td>
+<td>Browser tasks and example choices make the agent job tangible.</td>
+<td>Running an agent and connecting an existing agent are distinct
+routes with different visitor intent.</td>
+<td>Transfer intent-based entry and task examples. A CortaNex workflow
+explorer should teach an operational relationship rather than suggest a
+live autonomous integration.</td>
+</tr>
+<tr class="even">
+<td><strong>Inkeep · W23</strong><br><a
+href="https://www.ycombinator.com/companies/inkeep">YC profile</a> · <a
+href="https://inkeep.com/">Homepage</a></td>
+<td>AI teammates are framed around business work, with suggested actions
+ready for human approval.</td>
+<td>A demo route follows problem and workflow explanations.</td>
+<td>Transfer reviewable suggestions and the responsibility of the next
+actor. Do not advertise an already-deployed ManuQube AI approval
+mechanism unless technically established.</td>
+</tr>
+<tr class="odd">
+<td><strong>AON3D · W17</strong><br><a
+href="https://www.ycombinator.com/companies/aon3d">YC profile</a> · <a
+href="https://www.aon3d.com/">Homepage</a></td>
+<td>A clear industrial category is connected to a specific physical
+product and its applications.</td>
+<td>Quote and product-learning routes serve buying and investigation
+separately.</td>
+<td>Transfer industrial specificity and product detail. Decorative
+factory imagery must not suggest that CortaNex manufactures equipment or
+operates the pictured facility.</td>
+</tr>
+<tr class="even">
+<td><strong>Factored Quality · W20</strong><br><a
+href="https://www.ycombinator.com/companies/factored-quality">YC
+profile</a> · <a
+href="https://www.factoredquality.com/">Homepage</a></td>
+<td>Quality work is organized through product, services and API scope,
+making the delivery model legible.</td>
+<td><strong>Book a Demo</strong> supports an assisted operational
+sale.</td>
+<td>YC currently labels it acquired. Transfer clarity about what
+software and services do together; do not claim its inspection network,
+regulatory coverage or customer outcomes.</td>
+</tr>
+<tr class="odd">
+<td><strong>Bland AI · S23</strong><br><a
+href="https://www.ycombinator.com/companies/bland-ai">YC profile</a> ·
+<a href="https://www.bland.ai/">Homepage</a></td>
+<td>Phone-agent work is made concrete through domain choices and a
+speak-to-agent route.</td>
+<td><strong>Book a Call</strong> and direct product experience address
+different readiness levels.</td>
+<td>Transfer a demonstration that serves the category and an obvious
+human route. Do not add speech interaction solely as decoration or claim
+a live agent where only a scripted example exists.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-transfers-across-the-sample">What transfers across the
+sample</h2>
+<h3 id="a-strong-introduction-connects-a-category-to-a-job">A strong
+introduction connects a category to a job</h3>
+<p>Resend’s tightly defined audience, BuildBuddy’s engineering context
+and AON3D’s physical product all reduce the amount the visitor must
+infer. Broader companies such as Gusto and Webflow earn room for several
+products by explaining a recognizable class of work. CortaNex should
+therefore make operational software explicit in the first view. A phrase
+about AI leadership, innovation or a new era cannot carry the whole
+explanation.</p>
+<p>The rebuild keeps the company proposition broader than ManuQube.
+Industrial, inventory and customer workflows remain legitimate
+implementation areas, while manufacturing receives a distinct product
+section. This avoids turning a services company with a developing
+platform into an apparently mature, single-product SaaS business. It
+also gives a visitor outside manufacturing a reason to continue.</p>
+<h3
+id="demonstrations-explain-relationships-better-than-labels">Demonstrations
+explain relationships better than labels</h3>
+<p>PostHog, Gumloop and Firecrawl make inputs, intermediate context and
+outputs visible. Resend shows the mechanism a developer would actually
+use. Supabase makes the module/platform relationship understandable
+through named capabilities and interface detail. Their transferable
+strength is explanatory behavior, not the presence of a dashboard-shaped
+rectangle.</p>
+<p>CortaNex’s new scenario consequently follows <strong>source → handoff
+→ owner → next decision</strong>. A visitor chooses a representative
+operational situation and sees what must remain connected. The display
+uses example records rather than fabricated customer measurements. The
+point is to explain the operational design approach, not to simulate a
+production deployment or suggest that a generated recommendation has
+been validated in a factory.</p>
+<h3 id="different-readiness-levels-need-different-next-steps">Different
+readiness levels need different next steps</h3>
+<p>Stripe, Gusto, Webflow, Supabase and BuildBuddy pair a direct entry
+route with an assisted or explanatory alternative. Browser Use separates
+using a hosted agent from connecting another agent. These choices are
+valuable because the visitors’ intentions differ. Repeating the same
+destination under several creative button labels would not reproduce
+this benefit.</p>
+<p>For CortaNex, the principal paths are a guided project brief, an
+illustrative workflow and direct contact. The brief asks useful
+questions about the operation and bottleneck, previews a message, then
+opens Ward’s verified WhatsApp channel. It does not claim to submit a
+lead to a CRM or to provision software. The persistent action dock keeps
+the next step available while the visitor explores, with meaningful
+labels rather than an unexplained icon.</p>
+<h3 id="proof-must-match-the-companys-actual-stage">Proof must match the
+company’s actual stage</h3>
+<p>Vanta, Stripe, Gusto and other mature references use named
+organizations, detailed stories, quantified claims or recognizable
+product adoption. Those elements belong to those companies’ evidence.
+They do not provide a template for inventing a CortaNex customer strip.
+A well-made page should make the available proof easier to understand
+without changing its strength.</p>
+<p>The defensible CortaNex evidence is implementation experience from
+prior client work and the initial ManuQube software releases. The page
+explains that MES, OMS, RMS and QMS have initial releases; tested
+handoffs, deployment hardening and factory-pilot validation remain the
+next stage. Warehouse and maintenance belong to the roadmap. No customer
+count, performance result, partnership badge or compliance certification
+is introduced through the redesign.</p>
+<h3 id="industrial-relevance-and-software-craft-can-coexist">Industrial
+relevance and software craft can coexist</h3>
+<p>Gecko Robotics, Astranis and AON3D help anchor the reference set in
+physical operations. Their domain specificity is more relevant to
+factory owners than copying a generic developer-tool homepage.
+Conversely, Resend, Nango and Exa show how technical detail can be made
+approachable. The aim is an industrially credible company with careful
+software craft, not a decorative factory catalogue.</p>
+<p>The immersive art background in the rebuild is an original decorative
+layer. It supports the idea of systems coming together while keeping the
+content and actions legible. It is not a client facility, product
+screenshot, machine-control interface or proof of a deployment. The
+official CortaNex logo, approved colors and typography remain the
+identity; the research does not justify another rebrand.</p>
+<h2 id="decisions-applied-to-the-rebuilt-page">Decisions applied to the
+rebuilt page</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Decision</th>
+<th>Research rationale</th>
+<th>Page behavior and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Immersive opening with depth</td>
+<td>Industrial references establish context; software references make
+the mechanism tangible.</td>
+<td>Decorative art gives the page a distinct atmosphere. It remains
+secondary to readable content and does not represent client assets.</td>
+</tr>
+<tr class="even">
+<td>A real operational scenario</td>
+<td>PostHog, Gumloop, Resend and Firecrawl explain through inputs and
+consequences.</td>
+<td>A scenario connects source information, a handoff, responsibility
+and a review decision. All records are illustrative.</td>
+</tr>
+<tr class="odd">
+<td>Guided WhatsApp brief</td>
+<td>Task-entry references let visitors make progress before a
+conversation.</td>
+<td>Choices create a useful draft for Ward. The visitor decides when to
+open WhatsApp and send it. No false submitted state.</td>
+</tr>
+<tr class="even">
+<td>Persistent action dock</td>
+<td>Different readiness levels benefit from an obvious next step.</td>
+<td>Exploration and contact remain available without hiding core content
+or taking over scrolling.</td>
+</tr>
+<tr class="odd">
+<td>Separate company and product narratives</td>
+<td>Supabase explains modularity; industrial examples define product
+scope.</td>
+<td>CortaNex’s implementation offer stays clear. ManuQube receives its
+own focused product moment.</td>
+</tr>
+<tr class="even">
+<td>Four releases, two roadmap areas</td>
+<td>Credibility depends on accurate product maturity.</td>
+<td>MES, OMS, RMS and QMS are initial releases. Warehouse and
+maintenance remain roadmap capabilities; factory validation is not
+claimed complete.</td>
+</tr>
+<tr class="odd">
+<td>Fewer presentation-like repetitions</td>
+<td>A complete visitor journey requires distinct substance.</td>
+<td>Each section explains a different question or advances the
+operational idea rather than repeating the same feature-card pitch.</td>
+</tr>
+<tr class="even">
+<td>Honest proof instead of decorative traction</td>
+<td>Mature customer proof cannot be borrowed.</td>
+<td>Use implementation scope and clear status. Omit invented metrics,
+testimonials, client logos, certifications and partnership claims.</td>
+</tr>
+</tbody>
+</table>
+<p>These decisions should be judged through the visitor’s ability to
+understand the offer and take an appropriate next step. More animation,
+a darker background or a cleverer label is not sufficient by itself. The
+scenario, contact behavior and product status need to remain
+comprehensible with motion reduced and on a small screen.</p>
+<h2 id="content-and-launch-boundaries">Content and launch
+boundaries</h2>
+<p>The company name is <strong>CortaNex AI</strong>. Transcription
+variants in the conversation do not create alternate brand names.
+ManuQube is endorsed by CortaNex and has its own product role. Previous
+internal system codenames remain out of the public narrative. Client
+identity and screenshots require permission before later use; neither
+was required to construct this illustrative page.</p>
+<p>The contact destination is Ward’s explicitly supplied number,
+<strong>+962 79 871 6666</strong>. The brief should state that the
+visitor is opening a WhatsApp draft and chooses when to send it. A local
+drafting experience is not an automated submission, software assessment
+result or project quote. Unverified inboxes, account creation, calendar
+availability and live product access should not appear as working
+services.</p>
+<p>The rebuilt page is delivered as a separate site. Replacing the old
+homepage on the company’s domain is a later deployment action and was
+not performed as part of this work. When that switch is scheduled, the
+final owner should confirm current product status, contact
+responsibility and any old URL redirects. This report is supporting
+handover material; it should not be inserted into the company site’s
+main navigation.</p>
+<h2 id="what-should-be-measured-after-launch">What should be measured
+after launch</h2>
+<p>The research suggests hypotheses, not guaranteed conversion
+improvements. The first evaluation should ask whether representative
+visitors can state what CortaNex builds, distinguish the company from
+ManuQube, understand the platform’s present stage and find a relevant
+next step. This is more informative than asking whether the page simply
+looks innovative.</p>
+<p>With an approved measurement setup, useful signals include the start
+and completion of the guided brief, scenario exploration, contact-draft
+openings and qualified conversations. A draft opening is not a sent
+message or a sales lead. Do not convert those events into revenue or
+customer counts without actual downstream evidence. Technical and visual
+checks should independently verify mobile layout, readable contrast,
+keyboard use, reduced motion and all visible actions.</p>
+<p>No conversion uplift, market-leadership result or competitor ranking
+is claimed. The deliverable is an evidence-based design direction and a
+working company page whose public statements remain aligned with what
+CortaNex can currently support.</p>
+<p><a class="home-link" href="/">← Return to CortaNex AI</a></p>
+</body>
+</html>

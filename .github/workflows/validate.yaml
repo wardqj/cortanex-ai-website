@@ -1,0 +1,38 @@
+name: Validate website and Docker Compose
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Validate static source
+        run: |
+          python3 scripts/validate.py
+          node --check public/app.js
+      - name: Validate Compose and build image
+        run: |
+          docker compose config --quiet
+          docker compose build --pull
+          docker compose run --rm --no-deps web -t
+      - name: Start website
+        run: docker compose up -d --wait --wait-timeout 60
+      - name: Check HTTP routes, assets and headers
+        run: python3 scripts/smoke.py
+      - name: Container logs
+        if: always()
+        run: docker compose logs --no-color
+      - name: Cleanup
+        if: always()
+        run: docker compose down
